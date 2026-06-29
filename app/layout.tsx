@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin", "latin-ext"] });
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Bus 9-osobowy | Warmia i Mazury | Opel Zafira Life Business",
+  title: "Bus 9-osobowy na wynajem | Olsztyn, Warmia i Mazury",
   description:
-    "Wynajem busa 9-osobowego Opel Zafira Life Business 180 KM, automat, 9 miejsc. Transport VIP, wakacje, ekipa, event. Olsztyn i okolice.",
+    "Wynajem Opel Zafira Life Business 180 KM, 9 miejsc, automat. Bez limitu km, bez marż. Od 180 zł/dzień. Olsztyn i Warmia-Mazury.",
 };
 
 export default function RootLayout({
@@ -17,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${jakarta.variable} font-sans antialiased`}>{children}</body>
     </html>
   );
 }

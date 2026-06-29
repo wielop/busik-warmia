@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Umbrella, HardHat, PartyPopper, Plane, CheckCircle2, User, Package, Receipt } from "lucide-react";
 
 export type RentalType = {
   id: string;
@@ -12,39 +13,19 @@ export type RentalType = {
 };
 
 const RENTAL_TYPES: RentalType[] = [
-  {
-    id: "wakacje",
-    label: "Wakacje / wyjazd",
-    icon: "🏖️",
-    pricePerDay: 280,
-    flatRate: false,
-    description: "280 zł / dzień",
-  },
-  {
-    id: "ekipa",
-    label: "Ekipa robocza",
-    icon: "🔧",
-    pricePerDay: 240,
-    flatRate: false,
-    description: "240 zł / dzień",
-  },
-  {
-    id: "impreza",
-    label: "Impreza / event",
-    icon: "🎉",
-    pricePerDay: 320,
-    flatRate: false,
-    description: "320 zł / dzień",
-  },
-  {
-    id: "transfer",
-    label: "Transfer / lotnisko",
-    icon: "✈️",
-    pricePerDay: 180,
-    flatRate: true,
-    description: "180 zł (ryczałt)",
-  },
+  { id: "wakacje", label: "Wakacje / wyjazd", icon: "wakacje", pricePerDay: 280, flatRate: false, description: "280 zł / dzień" },
+  { id: "ekipa",   label: "Ekipa robocza",    icon: "ekipa",   pricePerDay: 240, flatRate: false, description: "240 zł / dzień" },
+  { id: "impreza", label: "Impreza / event",  icon: "impreza", pricePerDay: 320, flatRate: false, description: "320 zł / dzień" },
+  { id: "transfer",label: "Transfer / lotnisko", icon: "transfer", pricePerDay: 180, flatRate: true,  description: "180 zł (ryczałt)" },
 ];
+
+function TypeIcon({ id, active }: { id: string; active: boolean }) {
+  const cls = `w-5 h-5 shrink-0 ${active ? "text-amber-500" : "text-slate-400"}`;
+  if (id === "wakacje")  return <Umbrella className={cls} strokeWidth={1.75} />;
+  if (id === "ekipa")    return <HardHat  className={cls} strokeWidth={1.75} />;
+  if (id === "impreza")  return <PartyPopper className={cls} strokeWidth={1.75} />;
+  return <Plane className={cls} strokeWidth={1.75} />;
+}
 
 export type CalcState = {
   type: RentalType;
@@ -71,35 +52,27 @@ function getDays(from: string, to: string): number {
 
 export default function Calculator({ onChange }: Props) {
   const [selectedType, setSelectedType] = useState<RentalType>(RENTAL_TYPES[0]);
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [withDriver, setWithDriver] = useState(false);
-  const [withRack, setWithRack] = useState(false);
-  const [vatInvoice, setVatInvoice] = useState(false);
+  const [dateFrom, setDateFrom]   = useState("");
+  const [dateTo, setDateTo]       = useState("");
+  const [withDriver, setWithDriver]   = useState(false);
+  const [withRack, setWithRack]       = useState(false);
+  const [vatInvoice, setVatInvoice]   = useState(false);
 
-  const days = selectedType.flatRate ? 1 : getDays(dateFrom, dateTo);
+  const days      = selectedType.flatRate ? 1 : getDays(dateFrom, dateTo);
   const basePrice = selectedType.pricePerDay * days;
   const driverCost = withDriver ? 100 * days : 0;
-  const rackCost = withRack ? 40 * days : 0;
-  const total = basePrice + driverCost + rackCost;
-
-  const showSummary =
-    selectedType.flatRate || (dateFrom && dateTo && days > 0);
+  const rackCost   = withRack   ?  40 * days : 0;
+  const total      = basePrice + driverCost + rackCost;
+  const showSummary = selectedType.flatRate || (dateFrom && dateTo && days > 0);
 
   useEffect(() => {
-    onChange({
-      type: selectedType,
-      dateFrom,
-      dateTo,
-      withDriver,
-      withRack,
-      vatInvoice,
-      days,
-      total,
-    });
+    onChange({ type: selectedType, dateFrom, dateTo, withDriver, withRack, vatInvoice, days, total });
+    // onChange nie jest w deps bo rodzic nie owija go w useCallback — to celowe
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedType, dateFrom, dateTo, withDriver, withRack, vatInvoice, days, total]);
 
   const today = new Date().toISOString().split("T")[0];
+  const inputCls = "w-full px-3 py-2.5 rounded-xl border border-[#e2e8f0] text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent text-[#1a2332]";
 
   return (
     <div>
@@ -111,40 +84,22 @@ export default function Calculator({ onChange }: Props) {
             <button
               key={type.id}
               onClick={() => setSelectedType(type)}
-              className={`flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all duration-150 focus:outline-none ${
+              className={`flex items-center gap-3 p-4 rounded-2xl border-2 text-left transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
                 active
-                  ? "border-[#3a7a50] bg-[#f0f7f3] shadow-sm"
-                  : "border-gray-200 bg-white hover:border-[#3a7a50]/40 hover:bg-gray-50"
+                  ? "border-amber-400 bg-amber-50 shadow-sm"
+                  : "border-[#e2e8f0] bg-white hover:border-amber-200 hover:bg-amber-50/30"
               }`}
             >
-              <span className="text-2xl">{type.icon}</span>
-              <div>
-                <div
-                  className={`font-semibold text-sm ${
-                    active ? "text-[#1c3a2e]" : "text-gray-800"
-                  }`}
-                >
+              <TypeIcon id={type.id} active={active} />
+              <div className="flex-1 min-w-0">
+                <div className={`font-semibold text-sm ${active ? "text-[#1a2332]" : "text-[#1a2332]"}`}>
                   {type.label}
                 </div>
-                <div
-                  className={`text-xs mt-0.5 ${
-                    active ? "text-[#2d5a3d]" : "text-gray-500"
-                  }`}
-                >
+                <div className={`text-xs mt-0.5 font-medium ${active ? "text-amber-600" : "text-[#64748b]"}`}>
                   {type.description}
                 </div>
               </div>
-              {active && (
-                <span className="ml-auto text-[#3a7a50]">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-              )}
+              {active && <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0" strokeWidth={1.75} />}
             </button>
           );
         })}
@@ -154,9 +109,7 @@ export default function Calculator({ onChange }: Props) {
       {!selectedType.flatRate && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Od kiedy
-            </label>
+            <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Od kiedy</label>
             <input
               type="date"
               min={today}
@@ -165,19 +118,17 @@ export default function Calculator({ onChange }: Props) {
                 setDateFrom(e.target.value);
                 if (dateTo && e.target.value > dateTo) setDateTo("");
               }}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a7a50] focus:border-transparent bg-white"
+              className={inputCls}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Do kiedy
-            </label>
+            <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Do kiedy</label>
             <input
               type="date"
               min={dateFrom || today}
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a7a50] focus:border-transparent bg-white"
+              className={inputCls}
             />
           </div>
         </div>
@@ -185,57 +136,40 @@ export default function Calculator({ onChange }: Props) {
 
       {/* Dodatki */}
       <div className="mb-5">
-        <p className="text-sm font-medium text-gray-700 mb-2">Opcje dodatkowe</p>
+        <p className="text-sm font-semibold text-[#1a2332] mb-2">Opcje dodatkowe</p>
         <div className="space-y-2">
           {[
-            {
-              id: "driver",
-              label: "Z kierowcą",
-              note: "+100 zł/dzień",
-              checked: withDriver,
-              set: setWithDriver,
-            },
-            {
-              id: "rack",
-              label: "Hak + bagażnik dachowy",
-              note: "+40 zł/dzień",
-              checked: withRack,
-              set: setWithRack,
-            },
-            {
-              id: "vat",
-              label: "Potrzebuję faktury VAT",
-              note: "bez dopłaty",
-              checked: vatInvoice,
-              set: setVatInvoice,
-            },
+            { id: "driver", label: "Z kierowcą",          note: "+100 zł/dzień", icon: <User    className="w-4 h-4 text-[#64748b]" strokeWidth={1.75} />, checked: withDriver,  set: setWithDriver  },
+            { id: "rack",   label: "Hak + bagażnik dachowy", note: "+40 zł/dzień",  icon: <Package className="w-4 h-4 text-[#64748b]" strokeWidth={1.75} />, checked: withRack,    set: setWithRack    },
+            { id: "vat",    label: "Potrzebuję faktury VAT", note: "bez dopłaty",   icon: <Receipt className="w-4 h-4 text-[#64748b]" strokeWidth={1.75} />, checked: vatInvoice,  set: setVatInvoice  },
           ].map((opt) => (
             <label
               key={opt.id}
-              className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 bg-white cursor-pointer hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors"
             >
+              {opt.icon}
               <input
                 type="checkbox"
                 checked={opt.checked}
                 onChange={(e) => opt.set(e.target.checked)}
-                className="w-4 h-4 accent-[#3a7a50] rounded"
+                className="w-4 h-4 accent-amber-500 rounded"
               />
-              <span className="text-sm text-gray-800 flex-1">{opt.label}</span>
-              <span className="text-xs text-gray-500 font-medium">{opt.note}</span>
+              <span className="text-sm text-[#1a2332] flex-1">{opt.label}</span>
+              <span className="text-xs text-[#64748b] font-medium">{opt.note}</span>
             </label>
           ))}
         </div>
       </div>
 
-      {/* Podsumowanie ceny */}
-      {showSummary && (
-        <div className="bg-[#1c3a2e] rounded-xl p-5 text-white">
-          <p className="text-xs font-semibold uppercase tracking-wider text-green-300 mb-3">
+      {/* Podsumowanie */}
+      {showSummary ? (
+        <div className="bg-[#1a2332] rounded-2xl p-5 text-white">
+          <p className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-3">
             Szacunkowa wycena
           </p>
           <div className="space-y-1.5 text-sm mb-4">
             <div className="flex justify-between">
-              <span className="text-green-200">
+              <span className="text-slate-300">
                 {selectedType.flatRate
                   ? `${selectedType.label} (ryczałt)`
                   : `${selectedType.label} × ${days} ${days === 1 ? "dzień" : "dni"}`}
@@ -244,42 +178,42 @@ export default function Calculator({ onChange }: Props) {
             </div>
             {withDriver && (
               <div className="flex justify-between">
-                <span className="text-green-200">
-                  Kierowca × {days} {days === 1 ? "dzień" : "dni"}
-                </span>
+                <span className="text-slate-300">Kierowca × {days} {days === 1 ? "dzień" : "dni"}</span>
                 <span>+{driverCost} zł</span>
               </div>
             )}
             {withRack && (
               <div className="flex justify-between">
-                <span className="text-green-200">
-                  Hak + bagażnik × {days} {days === 1 ? "dzień" : "dni"}
-                </span>
+                <span className="text-slate-300">Hak + bagażnik × {days} {days === 1 ? "dzień" : "dni"}</span>
                 <span>+{rackCost} zł</span>
               </div>
             )}
             {vatInvoice && (
               <div className="flex justify-between">
-                <span className="text-green-200">Faktura VAT</span>
-                <span className="text-green-300 text-xs">w cenie</span>
+                <span className="text-slate-300">Faktura VAT</span>
+                <span className="text-amber-400 text-xs">w cenie</span>
               </div>
             )}
           </div>
-          <div className="border-t border-white/20 pt-3 flex justify-between items-center">
+          <div className="border-t border-white/10 pt-3 flex justify-between items-center">
             <span className="font-semibold text-base">Razem</span>
-            <span className="font-bold text-2xl">{total} zł</span>
+            <span className="font-bold text-2xl text-amber-400">{total} zł</span>
           </div>
-          <p className="text-xs text-green-300/70 mt-3">
-            Cena orientacyjna · bez kaucji zwrotnej · paliwo we własnym zakresie
+          <p className="text-xs text-slate-400 mt-3">
+            Cena orientacyjna · kaucja 500 zł zwracana przy oddaniu · paliwo pełne na pełne
           </p>
         </div>
+      ) : (
+        !selectedType.flatRate && (
+          <div className="rounded-2xl border-2 border-dashed border-[#e2e8f0] p-5 text-center text-sm text-[#64748b]">
+            Wybierz daty, aby zobaczyć wycenę
+          </div>
+        )
       )}
 
-      {!showSummary && !selectedType.flatRate && (
-        <div className="rounded-xl border-2 border-dashed border-gray-200 p-5 text-center text-sm text-gray-400">
-          Wybierz daty, aby zobaczyć wycenę
-        </div>
-      )}
+      <p className="text-xs text-[#64748b] mt-3 text-center">
+        Wynajem powyżej 3 dni — taniej. Napisz po indywidualną wycenę.
+      </p>
     </div>
   );
 }
