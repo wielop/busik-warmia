@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CalendarDays, Plane, CalendarRange, CheckCircle2, Receipt, Truck, Gauge } from "lucide-react";
+import { CalendarDays, CalendarRange, CheckCircle2, Receipt, Truck, Gauge } from "lucide-react";
 
-type Mode = "wynajem" | "transfer" | "dlugoterminowy";
+type Mode = "wynajem" | "dlugoterminowy";
 
 export type CalcState = {
   mode: Mode;
@@ -45,12 +45,6 @@ const MODES: { id: Mode; label: string; sub: string; icon: React.ReactNode }[] =
     icon: <CalendarDays className="w-5 h-5" strokeWidth={1.75} />,
   },
   {
-    id: "transfer",
-    label: "Transfer / lotnisko",
-    sub: "180 zł ryczałt",
-    icon: <Plane className="w-5 h-5" strokeWidth={1.75} />,
-  },
-  {
     id: "dlugoterminowy",
     label: "Wynajem długoterminowy",
     sub: "22+ dni · wycena indywidualna",
@@ -68,21 +62,13 @@ export default function Calculator({ onChange }: Props) {
   const [overKmCount,  setOverKmCount]  = useState("");
   const [vatInvoice,   setVatInvoice]   = useState(false);
 
-  const days = mode === "transfer" ? 1 : getDays(dateFrom, dateTo);
+  const days = getDays(dateFrom, dateTo);
   const tier = getTier(days);
 
-  const pricePerDay =
-    mode === "transfer"        ? 180 :
-    mode === "dlugoterminowy"  ? 250 :
-    tier.pricePerDay;
-
-  const total =
-    mode === "transfer"       ? 180 :
-    mode === "dlugoterminowy" ? 0   :
-    pricePerDay * days;
+  const pricePerDay = mode === "dlugoterminowy" ? 250 : tier.pricePerDay;
+  const total       = mode === "dlugoterminowy" ? 0   : pricePerDay * days;
 
   const showSummary =
-    mode === "transfer" ||
     mode === "dlugoterminowy" ||
     (dateFrom && dateTo && days > 0);
 
@@ -272,12 +258,6 @@ export default function Calculator({ onChange }: Props) {
             Szacunkowa wycena
           </p>
           <div className="space-y-1.5 text-sm mb-4">
-            {mode === "transfer" && (
-              <div className="flex justify-between">
-                <span className="text-slate-300">Transfer / lotnisko (ryczałt)</span>
-                <span>180 zł</span>
-              </div>
-            )}
             {mode === "wynajem" && days > 0 && (
               <div className="flex justify-between">
                 <span className="text-slate-300">

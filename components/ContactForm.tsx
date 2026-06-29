@@ -26,9 +26,7 @@ export default function ContactForm({ calcState }: Props) {
       : "—";
 
   const modeLabel =
-    calcState?.mode === "transfer"       ? "Transfer / lotnisko" :
-    calcState?.mode === "dlugoterminowy" ? "Wynajem długoterminowy" :
-    "Wynajem na doby";
+    calcState?.mode === "dlugoterminowy" ? "Wynajem długoterminowy" : "Wynajem na doby";
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -122,20 +120,6 @@ export default function ContactForm({ calcState }: Props) {
         </div>
       </div>
 
-      {calcState?.mode === "transfer" && (
-        <div>
-          <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
-            Które lotnisko? <span className="text-[#64748b] font-normal">(opcjonalnie)</span>
-          </label>
-          <input
-            type="text"
-            value={route}
-            onChange={(e) => setRoute(e.target.value)}
-            placeholder="np. Gdańsk, Modlin, Warszawa Chopina..."
-            className={inputCls}
-          />
-        </div>
-      )}
 
       <div>
         <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
