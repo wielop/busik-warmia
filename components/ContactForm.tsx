@@ -46,8 +46,7 @@ export default function ContactForm({ calcState }: Props) {
       "Data do": calcState?.dateTo || "—",
       "Liczba dni": daysLabel,
       "Szacowany koszt": calcState ? `${calcState.total} zł` : "—",
-      "Z kierowcą": calcState?.withDriver ? "Tak" : "Nie",
-      "Hak + bagażnik": calcState?.withRack ? "Tak" : "Nie",
+      "Dowóz busa": calcState?.withDelivery ? `Tak — ${calcState.deliveryCity || "miejscowość niepodana"}` : "Nie",
       "Faktura VAT": calcState?.vatInvoice ? "Tak" : "Nie",
     };
 

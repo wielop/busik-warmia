@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Umbrella, HardHat, PartyPopper, Plane, CheckCircle2, User, Package, Receipt } from "lucide-react";
+import { Umbrella, HardHat, PartyPopper, Plane, CheckCircle2, Receipt, Truck } from "lucide-react";
 
 export type RentalType = {
   id: string;
@@ -13,17 +13,17 @@ export type RentalType = {
 };
 
 const RENTAL_TYPES: RentalType[] = [
-  { id: "wakacje", label: "Wakacje / wyjazd", icon: "wakacje", pricePerDay: 280, flatRate: false, description: "280 zł / dzień" },
-  { id: "ekipa",   label: "Ekipa robocza",    icon: "ekipa",   pricePerDay: 240, flatRate: false, description: "240 zł / dzień" },
-  { id: "impreza", label: "Impreza / event",  icon: "impreza", pricePerDay: 320, flatRate: false, description: "320 zł / dzień" },
-  { id: "transfer",label: "Transfer / lotnisko", icon: "transfer", pricePerDay: 180, flatRate: true,  description: "180 zł (ryczałt)" },
+  { id: "wakacje", label: "Wakacje / wyjazd",    icon: "wakacje",  pricePerDay: 280, flatRate: false, description: "280 zł / dzień" },
+  { id: "ekipa",   label: "Ekipa robocza",        icon: "ekipa",    pricePerDay: 240, flatRate: false, description: "240 zł / dzień" },
+  { id: "impreza", label: "Impreza / event",      icon: "impreza",  pricePerDay: 320, flatRate: false, description: "320 zł / dzień" },
+  { id: "transfer",label: "Transfer / lotnisko",  icon: "transfer", pricePerDay: 180, flatRate: true,  description: "180 zł (ryczałt)" },
 ];
 
 function TypeIcon({ id, active }: { id: string; active: boolean }) {
   const cls = `w-5 h-5 shrink-0 ${active ? "text-amber-500" : "text-slate-400"}`;
-  if (id === "wakacje")  return <Umbrella className={cls} strokeWidth={1.75} />;
-  if (id === "ekipa")    return <HardHat  className={cls} strokeWidth={1.75} />;
-  if (id === "impreza")  return <PartyPopper className={cls} strokeWidth={1.75} />;
+  if (id === "wakacje")  return <Umbrella     className={cls} strokeWidth={1.75} />;
+  if (id === "ekipa")    return <HardHat      className={cls} strokeWidth={1.75} />;
+  if (id === "impreza")  return <PartyPopper  className={cls} strokeWidth={1.75} />;
   return <Plane className={cls} strokeWidth={1.75} />;
 }
 
@@ -31,8 +31,8 @@ export type CalcState = {
   type: RentalType;
   dateFrom: string;
   dateTo: string;
-  withDriver: boolean;
-  withRack: boolean;
+  withDelivery: boolean;
+  deliveryCity: string;
   vatInvoice: boolean;
   days: number;
   total: number;
@@ -51,27 +51,24 @@ function getDays(from: string, to: string): number {
 }
 
 export default function Calculator({ onChange }: Props) {
-  const [selectedType, setSelectedType] = useState<RentalType>(RENTAL_TYPES[0]);
-  const [dateFrom, setDateFrom]   = useState("");
-  const [dateTo, setDateTo]       = useState("");
-  const [withDriver, setWithDriver]   = useState(false);
-  const [withRack, setWithRack]       = useState(false);
-  const [vatInvoice, setVatInvoice]   = useState(false);
+  const [selectedType,  setSelectedType]  = useState<RentalType>(RENTAL_TYPES[0]);
+  const [dateFrom,      setDateFrom]      = useState("");
+  const [dateTo,        setDateTo]        = useState("");
+  const [withDelivery,  setWithDelivery]  = useState(false);
+  const [deliveryCity,  setDeliveryCity]  = useState("");
+  const [vatInvoice,    setVatInvoice]    = useState(false);
 
   const days      = selectedType.flatRate ? 1 : getDays(dateFrom, dateTo);
   const basePrice = selectedType.pricePerDay * days;
-  const driverCost = withDriver ? 100 * days : 0;
-  const rackCost   = withRack   ?  40 * days : 0;
-  const total      = basePrice + driverCost + rackCost;
+  const total     = basePrice;
   const showSummary = selectedType.flatRate || (dateFrom && dateTo && days > 0);
 
   useEffect(() => {
-    onChange({ type: selectedType, dateFrom, dateTo, withDriver, withRack, vatInvoice, days, total });
-    // onChange nie jest w deps bo rodzic nie owija go w useCallback — to celowe
+    onChange({ type: selectedType, dateFrom, dateTo, withDelivery, deliveryCity, vatInvoice, days, total });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedType, dateFrom, dateTo, withDriver, withRack, vatInvoice, days, total]);
+  }, [selectedType, dateFrom, dateTo, withDelivery, deliveryCity, vatInvoice, days, total]);
 
-  const today = new Date().toISOString().split("T")[0];
+  const today    = new Date().toISOString().split("T")[0];
   const inputCls = "w-full px-3 py-2.5 rounded-xl border border-[#e2e8f0] text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent text-[#1a2332]";
 
   return (
@@ -92,9 +89,7 @@ export default function Calculator({ onChange }: Props) {
             >
               <TypeIcon id={type.id} active={active} />
               <div className="flex-1 min-w-0">
-                <div className={`font-semibold text-sm ${active ? "text-[#1a2332]" : "text-[#1a2332]"}`}>
-                  {type.label}
-                </div>
+                <div className="font-semibold text-sm text-[#1a2332]">{type.label}</div>
                 <div className={`text-xs mt-0.5 font-medium ${active ? "text-amber-600" : "text-[#64748b]"}`}>
                   {type.description}
                 </div>
@@ -134,30 +129,54 @@ export default function Calculator({ onChange }: Props) {
         </div>
       )}
 
-      {/* Dodatki */}
+      {/* Opcje dodatkowe */}
       <div className="mb-5">
         <p className="text-sm font-semibold text-[#1a2332] mb-2">Opcje dodatkowe</p>
         <div className="space-y-2">
-          {[
-            { id: "driver", label: "Z kierowcą",          note: "+100 zł/dzień", icon: <User    className="w-4 h-4 text-[#64748b]" strokeWidth={1.75} />, checked: withDriver,  set: setWithDriver  },
-            { id: "rack",   label: "Hak + bagażnik dachowy", note: "+40 zł/dzień",  icon: <Package className="w-4 h-4 text-[#64748b]" strokeWidth={1.75} />, checked: withRack,    set: setWithRack    },
-            { id: "vat",    label: "Potrzebuję faktury VAT", note: "bez dopłaty",   icon: <Receipt className="w-4 h-4 text-[#64748b]" strokeWidth={1.75} />, checked: vatInvoice,  set: setVatInvoice  },
-          ].map((opt) => (
-            <label
-              key={opt.id}
-              className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors"
-            >
-              {opt.icon}
+
+          {/* Dowóz busa */}
+          <div>
+            <label className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors">
+              <Truck className="w-4 h-4 text-[#64748b] shrink-0" strokeWidth={1.75} />
               <input
                 type="checkbox"
-                checked={opt.checked}
-                onChange={(e) => opt.set(e.target.checked)}
+                checked={withDelivery}
+                onChange={(e) => {
+                  setWithDelivery(e.target.checked);
+                  if (!e.target.checked) setDeliveryCity("");
+                }}
                 className="w-4 h-4 accent-amber-500 rounded"
               />
-              <span className="text-sm text-[#1a2332] flex-1">{opt.label}</span>
-              <span className="text-xs text-[#64748b] font-medium">{opt.note}</span>
+              <span className="text-sm text-[#1a2332] flex-1">Dowóz busa pod adres</span>
+              <span className="text-xs text-[#64748b] font-medium">wycena indywidualna</span>
             </label>
-          ))}
+            {withDelivery && (
+              <div className="mt-2 px-1">
+                <input
+                  type="text"
+                  value={deliveryCity}
+                  onChange={(e) => setDeliveryCity(e.target.value)}
+                  placeholder="Miejscowość lub adres dowozu..."
+                  className={inputCls}
+                  autoFocus
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Faktura VAT */}
+          <label className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors">
+            <Receipt className="w-4 h-4 text-[#64748b] shrink-0" strokeWidth={1.75} />
+            <input
+              type="checkbox"
+              checked={vatInvoice}
+              onChange={(e) => setVatInvoice(e.target.checked)}
+              className="w-4 h-4 accent-amber-500 rounded"
+            />
+            <span className="text-sm text-[#1a2332] flex-1">Potrzebuję faktury VAT</span>
+            <span className="text-xs text-[#64748b] font-medium">bez dopłaty</span>
+          </label>
+
         </div>
       </div>
 
@@ -176,16 +195,12 @@ export default function Calculator({ onChange }: Props) {
               </span>
               <span>{basePrice} zł</span>
             </div>
-            {withDriver && (
+            {withDelivery && (
               <div className="flex justify-between">
-                <span className="text-slate-300">Kierowca × {days} {days === 1 ? "dzień" : "dni"}</span>
-                <span>+{driverCost} zł</span>
-              </div>
-            )}
-            {withRack && (
-              <div className="flex justify-between">
-                <span className="text-slate-300">Hak + bagażnik × {days} {days === 1 ? "dzień" : "dni"}</span>
-                <span>+{rackCost} zł</span>
+                <span className="text-slate-300">
+                  Dowóz{deliveryCity ? ` → ${deliveryCity}` : ""}
+                </span>
+                <span className="text-amber-400 text-xs">do ustalenia</span>
               </div>
             )}
             {vatInvoice && (
@@ -199,7 +214,12 @@ export default function Calculator({ onChange }: Props) {
             <span className="font-semibold text-base">Razem</span>
             <span className="font-bold text-2xl text-amber-400">{total} zł</span>
           </div>
-          <p className="text-xs text-slate-400 mt-3">
+          {withDelivery && (
+            <p className="text-xs text-amber-300/70 mt-2">
+              + koszt dowozu do ustalenia indywidualnie
+            </p>
+          )}
+          <p className="text-xs text-slate-400 mt-2">
             Cena orientacyjna · limit 450 km/dobę · kaucja 1000 zł zwracana przy oddaniu
           </p>
         </div>
