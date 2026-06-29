@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green-hero: #1c3a2e;
+  --green-accent: #2d5a3d;
+  --green-light: #4a8c62;
+  --green-border: #3a7a50;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f9fafb;
+  color: #111827;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.6;
+  cursor: pointer;
+}
