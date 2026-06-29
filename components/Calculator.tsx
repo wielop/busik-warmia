@@ -200,7 +200,7 @@ export default function Calculator({ onChange }: Props) {
             <span className="font-bold text-2xl text-amber-400">{total} zł</span>
           </div>
           <p className="text-xs text-slate-400 mt-3">
-            Cena orientacyjna · kaucja 500 zł zwracana przy oddaniu · paliwo pełne na pełne
+            Cena orientacyjna · limit 450 km/dobę · kaucja 1000 zł zwracana przy oddaniu
           </p>
         </div>
       ) : (

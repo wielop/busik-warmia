@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Zap, Users, Snowflake, ShieldCheck, Infinity, Check, Star, Phone, MessageCircle } from "lucide-react";
+import { Zap, Users, Snowflake, ShieldCheck, Gauge, Check, Star, Phone, MessageCircle } from "lucide-react";
 import Calculator from "@/components/Calculator";
 import ContactForm from "@/components/ContactForm";
 import FAQ from "@/components/FAQ";
@@ -68,7 +68,7 @@ export default function Home() {
           </h1>
 
           <p className="text-lg sm:text-xl text-white/70 mb-10 max-w-2xl leading-relaxed">
-            Automat, klimatyzacja, 180 KM. Bez limitu kilometrów, bez korporacyjnych marż
+            Automat, klimatyzacja, 180 KM. 450 km w cenie doby, bez korporacyjnych marż
             i papierologii. Wynajem prywatny od 180 zł — Olsztyn i okolice.
           </p>
 
@@ -169,12 +169,12 @@ export default function Home() {
             {/* wyróżniona pozycja */}
             <div className="flex items-start gap-4 p-5 rounded-2xl bg-amber-50 border-2 border-amber-200">
               <span className="mt-0.5 text-amber-500 shrink-0">
-                <Infinity className="w-6 h-6" strokeWidth={1.75} />
+                <Gauge className="w-6 h-6" strokeWidth={1.75} />
               </span>
               <div>
-                <p className="font-bold text-[#1a2332]">Bez limitu kilometrów</p>
+                <p className="font-bold text-[#1a2332]">450 km w cenie doby</p>
                 <p className="text-[#64748b] text-sm mt-0.5">
-                  Jedziesz tyle, ile chcesz. Licznik mnie nie interesuje.
+                  Planujesz więcej? Napisz z góry — doliczamy nadprzebieg i nie ma niespodzianek przy zwrocie.
                 </p>
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function Home() {
               { label: "Paliwo bez kombinowania", desc: "odbierasz busa zatankowanego do pełna, takiego oddajesz" },
               { label: "Odbiór w [MIEJSCE_ODBIORU]", desc: "" },
               { label: "Faktura VAT na życzenie", desc: "bez dopłaty" },
-              { label: "Kaucja 500 zł", desc: "zwracana w całości przy oddaniu busa" },
+              { label: "Kaucja 1000 zł", desc: "zwracana w całości przy oddaniu busa" },
             ].map((item) => (
               <div key={item.label} className="flex items-start gap-4 p-4 rounded-2xl border border-[#e2e8f0]">
                 <Check className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" strokeWidth={2} />

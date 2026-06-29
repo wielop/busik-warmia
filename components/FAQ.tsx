@@ -10,11 +10,11 @@ const ITEMS = [
   },
   {
     q: "Czy jest limit kilometrów?",
-    a: "Nie ma żadnego. Jedziesz nad morze, w Bieszczady czy dookoła Mazur — przebieg mnie nie interesuje i nic za niego nie dopłacasz.",
+    a: "Tak — 450 km na dobę w cenie wynajmu. Jeśli planujesz więcej, po prostu napisz z góry, ile mniej więcej km dziennie zakładasz, to doliczymy nadprzebieg i nie będzie niespodzianek przy zwrocie.",
   },
   {
     q: "Ile wynosi kaucja?",
-    a: "500 zł. Oddaję ją w całości od ręki przy zwrocie busa. To zwykłe zabezpieczenie, nie ukryta opłata.",
+    a: "1000 zł. Oddaję ją w całości od ręki przy zwrocie busa, pod warunkiem że wraca bez szkód i zatankowany. To zwykłe zabezpieczenie, nie ukryta opłata.",
   },
   {
     q: "Jak jest z paliwem?",
