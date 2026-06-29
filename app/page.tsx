@@ -141,7 +141,7 @@ export default function Home() {
               </h2>
               <p className="text-white/60 mb-6 leading-relaxed">
                 Przestronne wnętrze, wygodne fotele z zagłówkami, panoramiczne okna.
-                9 osób jedzie komfortowo — czy to na budowę, czy na wakacje.
+                9 osób jedzie komfortowo — nawet w najdalszą trasę.
               </p>
               <Link
                 href="/auta"
