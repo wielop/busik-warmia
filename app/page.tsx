@@ -15,7 +15,7 @@ const WA_RAW      = "48000000000";
 const IMIE        = "[IMIĘ]";
 
 const USE_CASES = [
-  "Wakacje nad Mazurami",
+  "Wyjazd na wakacje",
   "Wyjazd integracyjny",
   "Kolonie i obozy",
   "Lotnisko (Gdańsk / Modlin)",
