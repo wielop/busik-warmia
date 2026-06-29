@@ -64,7 +64,7 @@ export default function Home() {
 
           <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold text-white leading-[1.1] tracking-tight mb-5 max-w-3xl">
             Wygodny bus na 9 osób —{" "}
-            <span className="text-amber-400">Olsztyn i cała Warmia</span>
+            <span className="text-amber-400">okolice Olsztyna</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-white/70 mb-10 max-w-2xl leading-relaxed">
