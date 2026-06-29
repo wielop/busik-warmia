@@ -63,7 +63,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold text-white leading-[1.1] tracking-tight mb-5 max-w-3xl">
-            Wygodny bus na 9 osób —{" "}
+            Wygodny bus na 9 osób -{" "}
             <span className="text-amber-400">odbierz w Olsztynie i jedź gdzie chcesz!</span>
           </h1>
 
