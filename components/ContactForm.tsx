@@ -89,26 +89,6 @@ export default function ContactForm({ calcState }: Props) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
-      {/* Podgląd wybranej wyceny */}
-      {calcState && calcState.total > 0 && (
-        <div className="bg-[#f0f7f3] border border-[#3a7a50]/30 rounded-xl p-4 text-sm">
-          <p className="text-xs font-semibold text-[#2d5a3d] uppercase tracking-wider mb-1">
-            Twoje zapytanie dotyczy
-          </p>
-          <p className="text-gray-800">
-            <span className="font-medium">{calcState.type.label}</span>
-            {!calcState.type.flatRate && calcState.days > 0 && (
-              <>
-                {" · "}
-                {calcState.dateFrom} → {calcState.dateTo} ({daysLabel})
-              </>
-            )}
-            {" · "}
-            <span className="font-bold text-[#1c3a2e]">{calcState.total} zł</span>
-          </p>
-        </div>
-      )}
-
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">

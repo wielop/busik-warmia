@@ -5,9 +5,9 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
-  title: "Bus 9-osobowy | Warmia i Mazury | Citroën SpaceTourer",
+  title: "Bus 9-osobowy | Warmia i Mazury | Opel Zafira Life Business",
   description:
-    "Wynajem busa 9-osobowego Citroën SpaceTourer na Warmii i Mazurach. Wakacje, ekipa robocza, event, transfer na lotnisko. Olsztyn i okolice.",
+    "Wynajem busa 9-osobowego Opel Zafira Life Business 180 KM, automat, 9 miejsc. Transport VIP, wakacje, ekipa, event. Olsztyn i okolice.",
 };
 
 export default function RootLayout({
