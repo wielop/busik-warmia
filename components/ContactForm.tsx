@@ -119,18 +119,20 @@ export default function ContactForm({ calcState }: Props) {
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
-          Skąd i dokąd <span className="text-[#64748b] font-normal">(opcjonalnie)</span>
-        </label>
-        <input
-          type="text"
-          value={route}
-          onChange={(e) => setRoute(e.target.value)}
-          placeholder="np. Olsztyn → Gdańsk Lotnisko"
-          className={inputCls}
-        />
-      </div>
+      {calcState?.type.id === "transfer" && (
+        <div>
+          <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
+            Które lotnisko? <span className="text-[#64748b] font-normal">(opcjonalnie)</span>
+          </label>
+          <input
+            type="text"
+            value={route}
+            onChange={(e) => setRoute(e.target.value)}
+            placeholder="np. Gdańsk, Modlin, Warszawa Chopina..."
+            className={inputCls}
+          />
+        </div>
+      )}
 
       <div>
         <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
