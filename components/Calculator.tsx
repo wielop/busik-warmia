@@ -318,7 +318,12 @@ export default function Calculator({ onChange }: Props) {
           <div className="border-t border-white/10 pt-3 flex justify-between items-center">
             <span className="font-semibold text-base">Razem</span>
             {mode === "dlugoterminowy" ? (
-              <span className="font-bold text-lg text-amber-400">orientacyjnie ~250 zł/dzień</span>
+              <div className="text-right">
+                {days > 0 && (
+                  <p className="font-bold text-2xl text-amber-400">~{days * 250} zł</p>
+                )}
+                <p className="text-xs text-amber-400/70 mt-0.5">orientacyjnie · ~250 zł/dzień</p>
+              </div>
             ) : (
               <span className="font-bold text-2xl text-amber-400">{total} zł</span>
             )}
