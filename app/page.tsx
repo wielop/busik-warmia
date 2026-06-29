@@ -59,7 +59,7 @@ export default function Home() {
         <div className="relative z-10 max-w-content mx-auto px-5 py-20 sm:py-28 w-full">
           {/* badge */}
           <div className="inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-sm font-medium text-white/80 mb-6">
-            Opel Zafira Life Business · Warmia i Mazury
+            Opel Zafira Life Business
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold text-white leading-[1.1] tracking-tight mb-5 max-w-3xl">
