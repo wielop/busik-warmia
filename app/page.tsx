@@ -68,7 +68,7 @@ export default function Home() {
           </h1>
 
           <p className="text-lg sm:text-xl text-white/70 mb-10 max-w-2xl leading-relaxed">
-            Automat, klimatyzacja, komfort z jazdy, 180 KM. 450 km w cenie doby. Wynajem prywatny od 180 zł — Olsztyn i okolice.
+            Automat, klimatyzacja, komfort z jazdy, 180 KM. 450 km w cenie doby. Wynajem prywatny od 180 zł.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
