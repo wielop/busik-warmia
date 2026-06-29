@@ -274,7 +274,7 @@ export default function Calculator({ onChange }: Props) {
       )}
 
       <p className="text-xs text-[#64748b] mt-3 text-center">
-        Wynajem powyżej 3 dni — taniej. Napisz po indywidualną wycenę.
+        Wynajem powyżej 4 dni — taniej. Napisz po indywidualną wycenę.
       </p>
     </div>
   );
