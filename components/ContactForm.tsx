@@ -15,7 +15,6 @@ export default function ContactForm({ calcState }: Props) {
   const [name,     setName]     = useState("");
   const [phone,    setPhone]    = useState("");
   const [route,    setRoute]    = useState("");
-  const [kmPerDay, setKmPerDay] = useState("");
   const [message,  setMessage]  = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [success,  setSuccess]  = useState(false);
@@ -39,13 +38,13 @@ export default function ContactForm({ calcState }: Props) {
       "Imię i nazwisko": name,
       "Telefon": phone,
       "Skąd i dokąd": route || "—",
-      "Szacowane km/dobę": kmPerDay || "—",
       "Wiadomość": message || "—",
       "Typ wynajmu": calcState?.type.label || "—",
       "Data od": calcState?.dateFrom || "—",
       "Data do": calcState?.dateTo || "—",
       "Liczba dni": daysLabel,
       "Szacowany koszt": calcState ? `${calcState.total} zł` : "—",
+      "Nadprzebieg": calcState?.withOverKm ? `Tak — ${calcState.overKmCount || "liczba km niepodana"}` : "Nie",
       "Dowóz busa": calcState?.withDelivery ? `Tak — ${calcState.deliveryCity || "miejscowość niepodana"}` : "Nie",
       "Faktura VAT": calcState?.vatInvoice ? "Tak" : "Nie",
     };
@@ -58,7 +57,7 @@ export default function ContactForm({ calcState }: Props) {
       });
       if (res.ok) {
         setSuccess(true);
-        setName(""); setPhone(""); setRoute(""); setKmPerDay(""); setMessage("");
+        setName(""); setPhone(""); setRoute(""); setMessage("");
       } else {
         setError("Wystąpił błąd. Zadzwoń bezpośrednio.");
       }
@@ -132,23 +131,6 @@ export default function ContactForm({ calcState }: Props) {
           />
         </div>
       )}
-
-      <div>
-        <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
-          Ile km planujesz dziennie?{" "}
-          <span className="text-[#64748b] font-normal">(opcjonalnie)</span>
-        </label>
-        <input
-          type="text"
-          value={kmPerDay}
-          onChange={(e) => setKmPerDay(e.target.value)}
-          placeholder="np. 200 km, ok. 400 km, ponad 500 km..."
-          className={inputCls}
-        />
-        <p className="text-xs text-[#64748b] mt-1">
-          Limit w cenie to 450 km/dobę — warto wiedzieć z góry, czy będzie nadprzebieg.
-        </p>
-      </div>
 
       <div>
         <label className="block text-sm font-medium text-[#1a2332] mb-1.5">

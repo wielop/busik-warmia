@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Umbrella, HardHat, PartyPopper, Plane, CheckCircle2, Receipt, Truck } from "lucide-react";
+import { Umbrella, HardHat, PartyPopper, Plane, CheckCircle2, Receipt, Truck, Gauge } from "lucide-react";
 
 export type RentalType = {
   id: string;
@@ -33,6 +33,8 @@ export type CalcState = {
   dateTo: string;
   withDelivery: boolean;
   deliveryCity: string;
+  withOverKm: boolean;
+  overKmCount: string;
   vatInvoice: boolean;
   days: number;
   total: number;
@@ -56,6 +58,8 @@ export default function Calculator({ onChange }: Props) {
   const [dateTo,        setDateTo]        = useState("");
   const [withDelivery,  setWithDelivery]  = useState(false);
   const [deliveryCity,  setDeliveryCity]  = useState("");
+  const [withOverKm,    setWithOverKm]    = useState(false);
+  const [overKmCount,   setOverKmCount]   = useState("");
   const [vatInvoice,    setVatInvoice]    = useState(false);
 
   const days      = selectedType.flatRate ? 1 : getDays(dateFrom, dateTo);
@@ -64,7 +68,7 @@ export default function Calculator({ onChange }: Props) {
   const showSummary = selectedType.flatRate || (dateFrom && dateTo && days > 0);
 
   useEffect(() => {
-    onChange({ type: selectedType, dateFrom, dateTo, withDelivery, deliveryCity, vatInvoice, days, total });
+    onChange({ type: selectedType, dateFrom, dateTo, withDelivery, deliveryCity, withOverKm, overKmCount, vatInvoice, days, total });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedType, dateFrom, dateTo, withDelivery, deliveryCity, vatInvoice, days, total]);
 
@@ -164,6 +168,36 @@ export default function Calculator({ onChange }: Props) {
             )}
           </div>
 
+          {/* Nadprzebieg */}
+          <div>
+            <label className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors">
+              <Gauge className="w-4 h-4 text-[#64748b] shrink-0" strokeWidth={1.75} />
+              <input
+                type="checkbox"
+                checked={withOverKm}
+                onChange={(e) => {
+                  setWithOverKm(e.target.checked);
+                  if (!e.target.checked) setOverKmCount("");
+                }}
+                className="w-4 h-4 accent-amber-500 rounded"
+              />
+              <span className="text-sm text-[#1a2332] flex-1">Planuję więcej niż 450 km/dobę</span>
+              <span className="text-xs text-[#64748b] font-medium">wycena indywidualna</span>
+            </label>
+            {withOverKm && (
+              <div className="mt-2 px-1">
+                <input
+                  type="text"
+                  value={overKmCount}
+                  onChange={(e) => setOverKmCount(e.target.value)}
+                  placeholder="Szacowana liczba km dziennie, np. 600 km..."
+                  className={inputCls}
+                  autoFocus
+                />
+              </div>
+            )}
+          </div>
+
           {/* Faktura VAT */}
           <label className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors">
             <Receipt className="w-4 h-4 text-[#64748b] shrink-0" strokeWidth={1.75} />
@@ -195,6 +229,14 @@ export default function Calculator({ onChange }: Props) {
               </span>
               <span>{basePrice} zł</span>
             </div>
+            {withOverKm && (
+              <div className="flex justify-between">
+                <span className="text-slate-300">
+                  Nadprzebieg{overKmCount ? ` ~${overKmCount}/dobę` : ""}
+                </span>
+                <span className="text-amber-400 text-xs">do ustalenia</span>
+              </div>
+            )}
             {withDelivery && (
               <div className="flex justify-between">
                 <span className="text-slate-300">
@@ -214,9 +256,9 @@ export default function Calculator({ onChange }: Props) {
             <span className="font-semibold text-base">Razem</span>
             <span className="font-bold text-2xl text-amber-400">{total} zł</span>
           </div>
-          {withDelivery && (
+          {(withDelivery || withOverKm) && (
             <p className="text-xs text-amber-300/70 mt-2">
-              + koszt dowozu do ustalenia indywidualnie
+              + pozycje &quot;do ustalenia&quot; wyceniamy indywidualnie po kontakcie
             </p>
           )}
           <p className="text-xs text-slate-400 mt-2">
