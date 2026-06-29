@@ -26,7 +26,7 @@ const ITEMS = [
   },
   {
     q: "Gdzie odbieram i zwracam busa?",
-    a: "[MIEJSCE_ODBIORU]. Możliwy dowóz pod wskazany adres za drobną dopłatą — dogadamy się.",
+    a: "Olsztyn. Możliwy dowóz pod wskazany adres za drobną dopłatą — dogadamy się.",
   },
   {
     q: "Czy mogę zabrać zwierzaka albo dziecięcy fotelik?",

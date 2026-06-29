@@ -182,7 +182,7 @@ export default function Home() {
             {[
               { label: "Pełne ubezpieczenie OC/AC", desc: "" },
               { label: "Paliwo bez kombinowania", desc: "odbierasz busa zatankowanego do pełna, takiego oddajesz" },
-              { label: "Odbiór w [MIEJSCE_ODBIORU]", desc: "" },
+              { label: "Odbiór w Olsztynie", desc: "" },
               { label: "Faktura VAT na życzenie", desc: "bez dopłaty" },
               { label: "Kaucja 1000 zł", desc: "zwracana w całości przy oddaniu busa" },
             ].map((item) => (
