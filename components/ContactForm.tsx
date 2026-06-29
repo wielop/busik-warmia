@@ -46,7 +46,7 @@ export default function ContactForm({ calcState }: Props) {
     };
 
     try {
-      const res = await fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
+      const res = await fetch("https://formspree.io/f/xrewlrej", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
