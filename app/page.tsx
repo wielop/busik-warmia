@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Ruler, PackageOpen, Anchor, RotateCw, Gauge, Check, Star, Phone, MessageCircle } from "lucide-react";
+import { Snowflake, PackageOpen, Anchor, RotateCw, Gauge, Check, Star, Phone, MessageCircle } from "lucide-react";
 import Calculator from "@/components/Calculator";
 import ContactForm from "@/components/ContactForm";
 import FAQ from "@/components/FAQ";
@@ -24,7 +24,7 @@ const USE_CASES = [
 ];
 
 const FEATURES = [
-  { icon: <Ruler className="w-6 h-6" strokeWidth={1.75} />,      title: "4,96 m długości", sub: "wersja Long" },
+  { icon: <Snowflake className="w-6 h-6" strokeWidth={1.75} />,  title: "Klimatyzacja", sub: "osobna strefa pasażerska" },
   { icon: <PackageOpen className="w-6 h-6" strokeWidth={1.75} />, title: "Bagażnik 1400 l", sub: "po złożeniu siedzeń" },
   { icon: <Anchor className="w-6 h-6" strokeWidth={1.75} />,      title: "Hak holowniczy", sub: "fabrycznie montowany" },
   { icon: <RotateCw className="w-6 h-6" strokeWidth={1.75} />,    title: "Fotele obrotowe", sub: "2. rząd przodem do siebie" },
