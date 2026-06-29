@@ -15,11 +15,11 @@ const WA_RAW      = "48000000000";
 const IMIE        = "[IMIĘ]";
 
 const USE_CASES = [
-  "Wakacje nad jeziora",
+  "Wakacje nad Mazurami",
+  "Wyjazd integracyjny",
+  "Kolonie i obozy",
   "Lotnisko (Gdańsk / Modlin)",
   "Wesele i goście",
-  "Ekipa na wyjazd",
-  "Przeprowadzka",
   "Wieczór kawalerski",
 ];
 
