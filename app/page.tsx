@@ -27,7 +27,7 @@ const FEATURES = [
   { icon: <Snowflake className="w-6 h-6" strokeWidth={1.75} />,  title: "Klimatyzacja", sub: "osobna strefa pasażerska" },
   { icon: <PackageOpen className="w-6 h-6" strokeWidth={1.75} />, title: "Bagażnik 1400 l", sub: "po złożeniu siedzeń" },
   { icon: <Anchor className="w-6 h-6" strokeWidth={1.75} />,      title: "Hak holowniczy", sub: "fabrycznie montowany" },
-  { icon: <PanelLeftOpen className="w-6 h-6" strokeWidth={1.75} />, title: "Drzwi elektryczne", sub: "otwierane elektrycznie" },
+  { icon: <PanelLeftOpen className="w-6 h-6" strokeWidth={1.75} />, title: "Boczne drzwi elektryczne", sub: "wygoda i komfort" },
 ];
 
 const REVIEWS = [
