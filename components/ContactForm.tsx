@@ -25,6 +25,11 @@ export default function ContactForm({ calcState }: Props) {
       ? `${calcState.days} ${calcState.days === 1 ? "dzień" : "dni"}`
       : "—";
 
+  const modeLabel =
+    calcState?.mode === "transfer"       ? "Transfer / lotnisko" :
+    calcState?.mode === "dlugoterminowy" ? "Wynajem długoterminowy" :
+    "Wynajem na doby";
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!name.trim() || !phone.trim()) {
@@ -39,11 +44,11 @@ export default function ContactForm({ calcState }: Props) {
       "Telefon": phone,
       "Skąd i dokąd": route || "—",
       "Wiadomość": message || "—",
-      "Typ wynajmu": calcState?.type.label || "—",
+      "Typ wynajmu": modeLabel,
       "Data od": calcState?.dateFrom || "—",
       "Data do": calcState?.dateTo || "—",
       "Liczba dni": daysLabel,
-      "Szacowany koszt": calcState ? `${calcState.total} zł` : "—",
+      "Szacowany koszt": calcState?.mode === "dlugoterminowy" ? "do ustalenia (~250 zł/dzień)" : calcState ? `${calcState.total} zł` : "—",
       "Nadprzebieg": calcState?.withOverKm ? `Tak — ${calcState.overKmCount || "liczba km niepodana"}` : "Nie",
       "Dowóz busa": calcState?.withDelivery ? `Tak — ${calcState.deliveryCity || "miejscowość niepodana"}` : "Nie",
       "Faktura VAT": calcState?.vatInvoice ? "Tak" : "Nie",
@@ -117,7 +122,7 @@ export default function ContactForm({ calcState }: Props) {
         </div>
       </div>
 
-      {calcState?.type.id === "transfer" && (
+      {calcState?.mode === "transfer" && (
         <div>
           <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
             Które lotnisko? <span className="text-[#64748b] font-normal">(opcjonalnie)</span>
