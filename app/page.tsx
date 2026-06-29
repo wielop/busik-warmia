@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Calculator from "@/components/Calculator";
 import ContactForm from "@/components/ContactForm";
-import Gallery from "@/components/Gallery";
 import type { CalcState } from "@/components/Calculator";
 
 const CHIPS = ["Transport VIP", "Wakacje", "Ekipa na budowę", "Wieczór kawalerski", "Lotnisko", "Hotel & biznes"];
@@ -52,15 +52,15 @@ export default function Home() {
             ))}
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href="#galeria"
+            <Link
+              href="/auta"
               className="inline-flex items-center justify-center gap-2 bg-white text-[#1c3a2e] font-bold px-7 py-3.5 rounded-xl text-base hover:bg-green-50 transition-colors duration-150 shadow-lg"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               Sprawdź busa
-            </a>
+            </Link>
             <a
               href="#zamow"
               className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-7 py-3.5 rounded-xl text-base hover:bg-white/20 transition-colors duration-150 backdrop-blur-sm"
@@ -91,28 +91,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── GALERIA ──────────────────────────────────────────── */}
-      <section id="galeria" className="max-w-4xl mx-auto px-5 py-12">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-            Sprawdź czym pojedziesz
-          </h2>
-          <p className="text-gray-500 text-sm">
-            Opel Zafira Life Business · srebrny metalik · NO 888CT
-          </p>
-        </div>
-        <Gallery />
-        <div className="text-center mt-8">
-          <a
-            href="#zamow"
-            className="inline-flex items-center gap-2 bg-[#1c3a2e] text-white font-bold px-8 py-3.5 rounded-xl text-base hover:bg-[#2d5a3d] transition-colors duration-150"
-          >
-            Podoba mi się — chcę zarezerwować
+      {/* ─── SPRAWDŹ BUSA ─────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-5 py-12">
+        <Link
+          href="/auta"
+          className="group flex flex-col sm:flex-row items-center gap-6 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:shadow-md transition-shadow duration-200"
+        >
+          <div className="text-6xl">🚐</div>
+          <div className="flex-1 text-center sm:text-left">
+            <h2 className="text-xl font-bold text-gray-900 mb-1">Sprawdź czym pojedziesz</h2>
+            <p className="text-gray-500 text-sm">
+              Opel Zafira Life Business · 180 KM · automat · 9 miejsc · srebrny metalik
+            </p>
+          </div>
+          <div className="inline-flex items-center gap-2 bg-[#1c3a2e] text-white font-semibold px-5 py-2.5 rounded-xl text-sm group-hover:bg-[#2d5a3d] transition-colors whitespace-nowrap">
+            Zobacz zdjęcia
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </a>
-        </div>
+          </div>
+        </Link>
       </section>
 
       {/* ─── KALKULATOR + FORMULARZ ───────────────────────────── */}
