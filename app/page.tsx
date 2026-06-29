@@ -16,9 +16,8 @@ const IMIE        = "[IMIĘ]";
 
 const USE_CASES = [
   "Wyjazd na wakacje",
-  "Wyjazd integracyjny",
   "Delegacje służbowe",
-  "Ekipa budowlana",
+  "Ekipy budowlane",
   "Lotnisko (Gdańsk / Modlin)",
   "Wesele i goście",
   "Wieczór kawalerski",
