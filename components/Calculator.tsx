@@ -361,31 +361,33 @@ export default function Calculator({ onChange }: Props) {
                 <span className="text-amber-400 text-xs">w cenie</span>
               </div>
             )}
-            <div className="flex justify-between pt-1 border-t border-white/10 mt-1">
-              <span className="text-slate-300">Kaucja (płatna przed wyjazdem, zwracana)</span>
-              <span>1 000 zł</span>
-            </div>
+            {(withDelivery || withOverKm) && (
+              <p className="text-xs text-amber-300/70 pt-1">
+                + pozycje &quot;do ustalenia&quot; wyceniamy indywidualnie po kontakcie
+              </p>
+            )}
           </div>
 
-          <div className="border-t border-white/10 pt-3 flex justify-between items-center">
-            <span className="font-semibold text-base">Do zapłaty przy odbiorze</span>
-            <div className="text-right">
-              {days > 0 ? (
-                <p className="font-bold text-2xl text-amber-400">{total + 1000} zł</p>
-              ) : (
-                <p className="font-bold text-2xl text-amber-400">—</p>
-              )}
-              <p className="text-xs text-amber-400/70 mt-0.5">wynajem + 1 000 zł kaucja</p>
+          {/* Kiedy co płacisz */}
+          {days > 0 && (
+            <div className="border-t border-white/10 pt-3 space-y-2 text-sm">
+              <p className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">Kiedy płacisz</p>
+              <div className="flex justify-between">
+                <span className="text-slate-300">Przy odbiorze busa <span className="text-white/40 text-xs">(zaliczka)</span></span>
+                <span className="font-semibold">1 000 zł</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-300">Po zwrocie busa <span className="text-white/40 text-xs">(pozostała kwota)</span></span>
+                <span className="font-semibold">{total > 1000 ? `${total - 1000} zł` : "0 zł"}</span>
+              </div>
+              <div className="flex justify-between border-t border-white/10 pt-2 mt-1">
+                <span className="font-bold">Łącznie za wynajem</span>
+                <span className="font-bold text-2xl text-amber-400">{total} zł</span>
+              </div>
             </div>
-          </div>
-
-          {(withDelivery || withOverKm) && (
-            <p className="text-xs text-amber-300/70 mt-2">
-              + pozycje &quot;do ustalenia&quot; wyceniamy indywidualnie po kontakcie
-            </p>
           )}
-          <p className="text-xs text-slate-400 mt-2">
-            Limit 450 km/dobę · kaucja zwracana w całości przy oddaniu busa
+          <p className="text-xs text-slate-400 mt-3">
+            Limit 450 km/dobę · zaliczka 1 000 zł płatna przy odbiorze
           </p>
         </div>
       ) : (
