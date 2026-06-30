@@ -86,8 +86,9 @@ export default function Calculator({ onChange }: Props) {
   twoMonthsLater.setMonth(twoMonthsLater.getMonth() + 2);
   const maxDate = twoMonthsLater.toISOString().split("T")[0];
 
+  const minDays = mode === "dlugoterminowy" ? 22 : 1;
   const minDateTo = dateFrom
-    ? new Date(new Date(dateFrom).getTime() + 86400000).toISOString().split("T")[0]
+    ? new Date(new Date(dateFrom).getTime() + minDays * 86400000).toISOString().split("T")[0]
     : today;
 
   useEffect(() => {
@@ -107,7 +108,7 @@ export default function Calculator({ onChange }: Props) {
           return (
             <button
               key={m.id}
-              onClick={() => { setMode(m.id); setDateFrom(""); setDateTo(""); }}
+              onClick={() => { setMode(m.id); setDateFrom(""); setDateTo(""); setPassengers(""); setPickupTime(""); setReturnTime(""); setDestination(""); }}
               className={`flex flex-col items-start gap-1.5 p-4 rounded-2xl border-2 text-left transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-amber-400 ${
                 active
                   ? "border-amber-400 bg-amber-50 shadow-sm"
