@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CalendarDays, CalendarRange, CheckCircle2, Receipt, Truck, Gauge } from "lucide-react";
+import { CalendarDays, CalendarRange, CheckCircle2, Receipt, Truck, Gauge, MapPin, Users, Clock } from "lucide-react";
 
 type Mode = "wynajem" | "dlugoterminowy";
 
@@ -17,6 +17,10 @@ export type CalcState = {
   days: number;
   pricePerDay: number;
   total: number;
+  destination: string;
+  passengers: string;
+  pickupTime: string;
+  returnTime: string;
 };
 
 type Props = {
@@ -47,7 +51,7 @@ const MODES: { id: Mode; label: string; sub: string; icon: React.ReactNode }[] =
   {
     id: "dlugoterminowy",
     label: "Wynajem długoterminowy",
-    sub: "22+ dni · wycena indywidualna",
+    sub: "22+ dni · 250 zł/dzień",
     icon: <CalendarRange className="w-5 h-5" strokeWidth={1.75} />,
   },
 ];
@@ -61,30 +65,43 @@ export default function Calculator({ onChange }: Props) {
   const [withOverKm,   setWithOverKm]   = useState(false);
   const [overKmCount,  setOverKmCount]  = useState("");
   const [vatInvoice,   setVatInvoice]   = useState(false);
+  const [destination,  setDestination]  = useState("");
+  const [passengers,   setPassengers]   = useState("");
+  const [pickupTime,   setPickupTime]   = useState("");
+  const [returnTime,   setReturnTime]   = useState("");
 
   const days = getDays(dateFrom, dateTo);
   const tier = getTier(days);
 
   const pricePerDay = mode === "dlugoterminowy" ? 250 : tier.pricePerDay;
-  const total       = mode === "dlugoterminowy" ? 0   : pricePerDay * days;
+  const total       = pricePerDay * days;
 
   const showSummary =
     mode === "dlugoterminowy" ||
     (dateFrom && dateTo && days > 0);
 
-  useEffect(() => {
-    onChange({ mode, dateFrom, dateTo, withDelivery, deliveryCity, withOverKm, overKmCount, vatInvoice, days, pricePerDay, total });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, dateFrom, dateTo, withDelivery, deliveryCity, withOverKm, overKmCount, vatInvoice, days, pricePerDay, total]);
+  const today = new Date().toISOString().split("T")[0];
 
-  const today    = new Date().toISOString().split("T")[0];
+  const twoMonthsLater = new Date();
+  twoMonthsLater.setMonth(twoMonthsLater.getMonth() + 2);
+  const maxDate = twoMonthsLater.toISOString().split("T")[0];
+
+  const minDateTo = dateFrom
+    ? new Date(new Date(dateFrom).getTime() + 86400000).toISOString().split("T")[0]
+    : today;
+
+  useEffect(() => {
+    onChange({ mode, dateFrom, dateTo, withDelivery, deliveryCity, withOverKm, overKmCount, vatInvoice, days, pricePerDay, total, destination, passengers, pickupTime, returnTime });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, dateFrom, dateTo, withDelivery, deliveryCity, withOverKm, overKmCount, vatInvoice, days, pricePerDay, total, destination, passengers, pickupTime, returnTime]);
+
   const inputCls = "w-full px-3 py-2.5 rounded-xl border border-[#e2e8f0] text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent text-[#1a2332]";
 
   return (
     <div>
 
-      {/* 3 tryby */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6">
+      {/* Tryby */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-6">
         {MODES.map((m) => {
           const active = mode === m.id;
           return (
@@ -140,47 +157,104 @@ export default function Calculator({ onChange }: Props) {
         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-5">
           <p className="text-sm font-semibold text-[#1a2332] mb-1">Wynajem 22 dni i więcej</p>
           <p className="text-sm text-[#64748b]">
-            Orientacyjnie ok. <strong className="text-[#1a2332]">250 zł / dzień</strong> — dokładną cenę ustalamy indywidualnie.
-            Zostaw kontakt, odezwę się z propozycją.
+            <strong className="text-[#1a2332]">250 zł / dzień</strong> — to nasza propozycja cenowa.
+            Zostaw kontakt, potwierdzimy szczegóły i termin.
           </p>
         </div>
       )}
 
       {/* Daty */}
-      {(mode === "wynajem" || mode === "dlugoterminowy") && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-          <div>
-            <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Od kiedy</label>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+        <div>
+          <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Od kiedy</label>
+          <input
+            type="date"
+            min={today}
+            max={maxDate}
+            value={dateFrom}
+            onChange={(e) => {
+              setDateFrom(e.target.value);
+              if (dateTo && e.target.value >= dateTo) setDateTo("");
+            }}
+            className={inputCls}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Kiedy oddajesz busa</label>
+          <input
+            type="date"
+            min={minDateTo}
+            max={maxDate}
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            className={inputCls}
+          />
+          <p className="text-xs text-[#64748b] mt-1">dzień zwrotu busa</p>
+        </div>
+      </div>
+
+      {/* Szczegóły wyjazdu */}
+      <div className="mb-5">
+        <p className="text-sm font-semibold text-[#1a2332] mb-2">
+          Szczegóły wyjazdu <span className="text-[#64748b] font-normal">(opcjonalnie)</span>
+        </p>
+        <div className="space-y-3">
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" strokeWidth={1.75} />
             <input
-              type="date"
-              min={today}
-              value={dateFrom}
-              onChange={(e) => {
-                setDateFrom(e.target.value);
-                if (dateTo && e.target.value > dateTo) setDateTo("");
-              }}
-              className={inputCls}
+              type="text"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              placeholder="Cel podróży / trasa (np. Gdańsk, Mazury, Praga...)"
+              className={`${inputCls} pl-9`}
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Do kiedy</label>
-            <input
-              type="date"
-              min={dateFrom || today}
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className={inputCls}
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="relative">
+              <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" strokeWidth={1.75} />
+              <input
+                type="number"
+                min={1}
+                max={9}
+                value={passengers}
+                onChange={(e) => setPassengers(e.target.value)}
+                placeholder="Ile osób"
+                className={`${inputCls} pl-9`}
+              />
+            </div>
+            <div>
+              <div className="relative">
+                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" strokeWidth={1.75} />
+                <input
+                  type="time"
+                  value={pickupTime}
+                  onChange={(e) => setPickupTime(e.target.value)}
+                  className={`${inputCls} pl-9`}
+                />
+              </div>
+              <p className="text-xs text-[#64748b] mt-1 text-center">Godzina odbioru</p>
+            </div>
+            <div>
+              <div className="relative">
+                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748b]" strokeWidth={1.75} />
+                <input
+                  type="time"
+                  value={returnTime}
+                  onChange={(e) => setReturnTime(e.target.value)}
+                  className={`${inputCls} pl-9`}
+                />
+              </div>
+              <p className="text-xs text-[#64748b] mt-1 text-center">Godzina zwrotu</p>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Opcje dodatkowe */}
       <div className="mb-5">
         <p className="text-sm font-semibold text-[#1a2332] mb-2">Opcje dodatkowe</p>
         <div className="space-y-2">
 
-          {/* Nadprzebieg — tylko dla wynajmu na doby */}
           {mode === "wynajem" && (
             <div>
               <label className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors">
@@ -209,7 +283,6 @@ export default function Calculator({ onChange }: Props) {
             </div>
           )}
 
-          {/* Dowóz */}
           <div>
             <label className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors">
               <Truck className="w-4 h-4 text-[#64748b] shrink-0" strokeWidth={1.75} />
@@ -235,7 +308,6 @@ export default function Calculator({ onChange }: Props) {
             )}
           </div>
 
-          {/* Faktura VAT */}
           <label className="flex items-center gap-3 p-3 rounded-xl border border-[#e2e8f0] bg-white cursor-pointer hover:bg-amber-50/30 hover:border-amber-200 transition-colors">
             <Receipt className="w-4 h-4 text-[#64748b] shrink-0" strokeWidth={1.75} />
             <input
@@ -270,9 +342,9 @@ export default function Calculator({ onChange }: Props) {
             {mode === "dlugoterminowy" && (
               <div className="flex justify-between">
                 <span className="text-slate-300">
-                  Długoterminowy{days > 0 ? ` · ${days} dni` : ""}
+                  {days > 0 ? `${days} dni × 250 zł` : "Długoterminowy"}
                 </span>
-                <span className="text-amber-400 text-xs">do ustalenia</span>
+                <span>{days > 0 ? `${total} zł` : "—"}</span>
               </div>
             )}
             {withOverKm && (
@@ -293,29 +365,31 @@ export default function Calculator({ onChange }: Props) {
                 <span className="text-amber-400 text-xs">w cenie</span>
               </div>
             )}
+            <div className="flex justify-between pt-1 border-t border-white/10 mt-1">
+              <span className="text-slate-300">Kaucja (płatna przed wyjazdem, zwracana)</span>
+              <span>1 000 zł</span>
+            </div>
           </div>
 
           <div className="border-t border-white/10 pt-3 flex justify-between items-center">
-            <span className="font-semibold text-base">Razem</span>
-            {mode === "dlugoterminowy" ? (
-              <div className="text-right">
-                {days > 0 && (
-                  <p className="font-bold text-2xl text-amber-400">~{days * 250} zł</p>
-                )}
-                <p className="text-xs text-amber-400/70 mt-0.5">orientacyjnie · ~250 zł/dzień</p>
-              </div>
-            ) : (
-              <span className="font-bold text-2xl text-amber-400">{total} zł</span>
-            )}
+            <span className="font-semibold text-base">Do zapłaty przy odbiorze</span>
+            <div className="text-right">
+              {days > 0 ? (
+                <p className="font-bold text-2xl text-amber-400">{total + 1000} zł</p>
+              ) : (
+                <p className="font-bold text-2xl text-amber-400">—</p>
+              )}
+              <p className="text-xs text-amber-400/70 mt-0.5">wynajem + 1 000 zł kaucja</p>
+            </div>
           </div>
 
-          {(withDelivery || withOverKm || mode === "dlugoterminowy") && (
+          {(withDelivery || withOverKm) && (
             <p className="text-xs text-amber-300/70 mt-2">
               + pozycje &quot;do ustalenia&quot; wyceniamy indywidualnie po kontakcie
             </p>
           )}
           <p className="text-xs text-slate-400 mt-2">
-            Cena orientacyjna · limit 450 km/dobę · kaucja 1000 zł zwracana przy oddaniu
+            Limit 450 km/dobę · kaucja zwracana w całości przy oddaniu busa
           </p>
         </div>
       ) : (

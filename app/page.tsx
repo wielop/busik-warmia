@@ -11,8 +11,8 @@ import type { CalcState } from "@/components/Calculator";
 
 const TELEFON     = "+48 728 497 694";
 const TELEFON_RAW = "48728497694";
-const WA_RAW      = "48000000000";
-const IMIE        = "[IMIĘ]";
+const WA_RAW      = "48728497694";
+const IMIE        = "Maciej";
 
 const USE_CASES = [
   "Wyjazd na wakacje",
@@ -31,13 +31,14 @@ const FEATURES = [
 ];
 
 const REVIEWS = [
-  { text: "[UZUPEŁNIJ opinię]", name: "Marek", city: "Olsztyn" },
-  { text: "[UZUPEŁNIJ opinię]", name: "Kasia", city: "Mrągowo" },
-  { text: "[UZUPEŁNIJ opinię]", name: "Tomek", city: "Ostróda" },
+  { text: "Brałem na wyjazd rodzinny na Mazury. Auto czyste, klimatyzacja działa świetnie, miejsca dla wszystkich łącznie z bagażami. Kontakt z Maciejem sprawny, bez zbędnych formalności.", name: "Marcin", city: "Olsztyn" },
+  { text: "Wynajęłam bus na wesele — goście z różnych stron, trzeba było ogarnąć transport. Wszystko poszło bez zarzutu. Cena uczciwa, człowiek konkretny.", name: "Kasia", city: "Mrągowo" },
+  { text: "Brałem na delegację do Warszawy i z powrotem. Automat, wygodne fotele, zero stresu w korkach. Polecam każdemu kto potrzebuje przewieźć większą grupę.", name: "Tomek", city: "Ostróda" },
 ];
 
 export default function Home() {
   const [calcState, setCalcState] = useState<CalcState | null>(null);
+  const [calcResetKey, setCalcResetKey] = useState(0);
 
   return (
     <main className="min-h-screen bg-[#f8fafc]">
@@ -250,13 +251,16 @@ export default function Home() {
           {/* kalkulator + form */}
           <div className="lg:col-span-3 order-1 lg:order-2">
             <div className="bg-white rounded-2xl shadow-sm border border-[#e2e8f0] p-6 sm:p-8">
-              <Calculator onChange={setCalcState} />
+              <Calculator key={calcResetKey} onChange={setCalcState} />
               <div className="flex items-center gap-3 my-6">
                 <div className="flex-1 h-px bg-[#e2e8f0]" />
                 <span className="text-xs text-[#64748b] font-medium uppercase tracking-wide">Twoje dane</span>
                 <div className="flex-1 h-px bg-[#e2e8f0]" />
               </div>
-              <ContactForm calcState={calcState} />
+              <ContactForm
+                calcState={calcState}
+                onReset={() => { setCalcResetKey(k => k + 1); setCalcState(null); }}
+              />
             </div>
           </div>
         </div>
