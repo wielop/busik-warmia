@@ -9,8 +9,8 @@ import ContactForm from "@/components/ContactForm";
 import FAQ from "@/components/FAQ";
 import type { CalcState } from "@/components/Calculator";
 
-const TELEFON     = "+48 000 000 000";
-const TELEFON_RAW = "48000000000";
+const TELEFON     = "+48 728 497 694";
+const TELEFON_RAW = "48728497694";
 const WA_RAW      = "48000000000";
 const IMIE        = "[IMIĘ]";
 

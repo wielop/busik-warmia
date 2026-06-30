@@ -4,8 +4,8 @@ import { useState, FormEvent } from "react";
 import { CheckCircle2, Send } from "lucide-react";
 import type { CalcState } from "./Calculator";
 
-const TELEFON = "+48 000 000 000";
-const TELEFON_RAW = "48000000000";
+const TELEFON = "+48 728 497 694";
+const TELEFON_RAW = "48728497694";
 
 type Props = {
   calcState: CalcState | null;
