@@ -38,7 +38,7 @@ export default function ContactForm({ calcState }: Props) {
     setSubmitting(true);
 
     const payload = {
-      "Imię i nazwisko": name,
+      "Imię": name,
       "Telefon": phone,
       "Skąd i dokąd": route || "—",
       "Wiadomość": message || "—",
@@ -96,7 +96,7 @@ export default function ContactForm({ calcState }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-[#1a2332] mb-1.5">
-            Imię i nazwisko <span className="text-red-400">*</span>
+            Imię <span className="text-red-400">*</span>
           </label>
           <input
             type="text"
