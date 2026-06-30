@@ -368,26 +368,24 @@ export default function Calculator({ onChange }: Props) {
             )}
           </div>
 
-          {/* Kiedy co płacisz */}
           {days > 0 && (
             <div className="border-t border-white/10 pt-3 space-y-2 text-sm">
-              <p className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">Kiedy płacisz</p>
               <div className="flex justify-between">
-                <span className="text-slate-300">Przy odbiorze busa <span className="text-white/40 text-xs">(kaucja)</span></span>
-                <span className="font-semibold">1 000 zł</span>
+                <span className="text-slate-300">Kaucja <span className="text-white/40 text-xs">(zwracana po powrocie)</span></span>
+                <span>1 000 zł</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-300">Po zwrocie busa <span className="text-white/40 text-xs">(pozostała kwota)</span></span>
-                <span className="font-semibold">{total > 1000 ? `${total - 1000} zł` : "0 zł"}</span>
+              <div className="flex justify-between items-center border-t border-white/10 pt-2 mt-1">
+                <span className="font-bold">Do zapłaty przy odbiorze</span>
+                <span className="font-bold text-2xl text-amber-400">{total + 1000} zł</span>
               </div>
-              <div className="flex justify-between border-t border-white/10 pt-2 mt-1">
-                <span className="font-bold">Łącznie za wynajem</span>
-                <span className="font-bold text-2xl text-amber-400">{total} zł</span>
+              <div className="flex justify-between text-xs">
+                <span className="text-slate-400">Po zwrocie busa — kaucja wraca w całości</span>
+                <span className="text-amber-400/70">− 1 000 zł</span>
               </div>
             </div>
           )}
           <p className="text-xs text-slate-400 mt-3">
-            Limit 450 km/dobę · kaucja 1 000 zł płatna przy odbiorze
+            Limit 450 km/dobę · kaucja zwracana w całości przy oddaniu busa
           </p>
         </div>
       ) : (
