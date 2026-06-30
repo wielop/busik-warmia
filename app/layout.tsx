@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import CookieBanner from "@/components/CookieBanner";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -21,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className={`${jakarta.variable} font-sans antialiased`}>{children}</body>
+      <body className={`${jakarta.variable} font-sans antialiased`}>
+        {children}
+        <CookieBanner />
+      </body>
     </html>
   );
 }

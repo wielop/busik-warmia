@@ -28,7 +28,7 @@ export default function Rodo() {
             <section>
               <h3 className="text-base font-bold text-[#1a2332] mb-2">Przedmiot wynajmu</h3>
               <p className="text-[#64748b] text-sm leading-relaxed">
-                Wynajmującym jest Maciej [Twoje nazwisko], prowadzący prywatny wynajem pojazdu
+                Wynajmującym jest Maciej Pawilonis, prowadzący prywatny wynajem pojazdu
                 Opel Zafira Life Business (9 miejsc) z siedzibą w Olsztynie.
                 Wynajem odbywa się na podstawie ustaleń potwierdzonych telefonicznie lub pisemnie.
               </p>
@@ -112,7 +112,7 @@ export default function Rodo() {
             <section>
               <h3 className="text-base font-bold text-[#1a2332] mb-2">Administrator danych</h3>
               <p className="text-[#64748b] text-sm leading-relaxed">
-                Administratorem Twoich danych osobowych jest Maciej [Twoje nazwisko], prowadzący
+                Administratorem Twoich danych osobowych jest Maciej Pawilonis, prowadzący
                 prywatny wynajem busa z siedzibą w Olsztynie. Kontakt:{" "}
                 <a href="tel:48728497694" className="text-amber-600 hover:underline">
                   +48 728 497 694
