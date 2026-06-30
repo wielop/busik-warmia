@@ -385,7 +385,7 @@ export default function Calculator({ onChange }: Props) {
             </div>
           )}
           <p className="text-xs text-slate-400 mt-3">
-            Limit 450 km/dobę · kaucja zwracana w całości przy oddaniu busa
+            Płatność z góry · limit 450 km/dobę · kaucja zwracana w całości przy oddaniu busa
           </p>
         </div>
       ) : (

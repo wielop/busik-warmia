@@ -185,7 +185,8 @@ export default function Home() {
               { label: "Paliwo bez kombinowania", desc: "odbierasz busa zatankowanego do pełna, takiego oddajesz" },
               { label: "Odbiór w Olsztynie", desc: "" },
               { label: "Faktura VAT na życzenie", desc: "bez dopłaty" },
-              { label: "Kaucja 1000 zł", desc: "zwracana w całości przy oddaniu busa" },
+              { label: "Płatność z góry", desc: "pełna kwota płatna przy odbiorze busa (najpóźniej)" },
+              { label: "Kaucja 1000 zł", desc: "odrębna od wynajmu — zwracana w całości przy oddaniu busa" },
             ].map((item) => (
               <div key={item.label} className="flex items-start gap-4 p-4 rounded-2xl border border-[#e2e8f0]">
                 <Check className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" strokeWidth={2} />

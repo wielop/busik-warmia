@@ -52,9 +52,10 @@ export default function Rodo() {
             <section>
               <h3 className="text-base font-bold text-[#1a2332] mb-2">Płatności</h3>
               <p className="text-[#64748b] text-sm leading-relaxed">
-                Płatności są realizowane gotówką. Przy odbiorze busa Najemca uiszcza pełny koszt
-                wynajmu oraz kaucję (1 000 zł) jako oddzielną kwotę. Po zwrocie pojazdu bez szkód
-                kaucja jest zwracana w całości.
+                Płatność za wynajem jest wymagana <strong>z góry</strong> — najpóźniej w dniu wydania pojazdu.
+                Przy odbiorze busa Najemca uiszcza pełny koszt wynajmu oraz kaucję (1 000 zł) jako
+                oddzielną kwotę. Płatności są realizowane gotówką.
+                Po zwrocie pojazdu bez szkód i z pełnym bakiem kaucja jest zwracana w całości.
               </p>
             </section>
 
