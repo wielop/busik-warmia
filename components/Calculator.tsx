@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CalendarDays, CalendarRange, CheckCircle2, Receipt, Truck, Gauge, MapPin, Users, Clock } from "lucide-react";
+import { CalendarRange, CheckCircle2, Receipt, Truck, Gauge, MapPin, Users, Clock } from "lucide-react";
+import CalendarPicker from "./CalendarPicker";
 
 type Mode = "wynajem" | "dlugoterminowy";
 
@@ -36,17 +37,18 @@ function getDays(from: string, to: string): number {
 }
 
 function getTier(days: number): { pricePerDay: number; label: string } {
-  if (days <= 4) return { pricePerDay: 400, label: "1–4 dni" };
-  if (days <= 7) return { pricePerDay: 350, label: "5–7 dni" };
-  return              { pricePerDay: 300, label: "8–21 dni" };
+  if (days <= 4)  return { pricePerDay: 400, label: "1–4 dni" };
+  if (days <= 7)  return { pricePerDay: 350, label: "5–7 dni" };
+  if (days <= 21) return { pricePerDay: 300, label: "8–21 dni" };
+  return                 { pricePerDay: 250, label: "22+ dni" };
 }
 
 const MODES: { id: Mode; label: string; sub: string; icon: React.ReactNode }[] = [
   {
     id: "wynajem",
     label: "Wynajem na doby",
-    sub: "od 300 zł / dzień",
-    icon: <CalendarDays className="w-5 h-5" strokeWidth={1.75} />,
+    sub: "od 250 zł / dzień",
+    icon: <CalendarRange className="w-5 h-5 scale-x-[-1]" strokeWidth={1.75} />,
   },
   {
     id: "dlugoterminowy",
@@ -130,11 +132,12 @@ export default function Calculator({ onChange }: Props) {
 
       {/* Tiery cenowe — tylko dla wynajmu na doby */}
       {mode === "wynajem" && (
-        <div className="grid grid-cols-3 gap-2 mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
           {[
-            { range: "1–4 dni", price: "400 zł/dzień" },
-            { range: "5–7 dni", price: "350 zł/dzień" },
+            { range: "1–4 dni",  price: "400 zł/dzień" },
+            { range: "5–7 dni",  price: "350 zł/dzień" },
             { range: "8–21 dni", price: "300 zł/dzień" },
+            { range: "22+ dni",  price: "250 zł/dzień" },
           ].map((t) => (
             <div
               key={t.range}
@@ -166,32 +169,24 @@ export default function Calculator({ onChange }: Props) {
 
       {/* Daty */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-        <div>
-          <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Od kiedy</label>
-          <input
-            type="date"
-            min={today}
-            max={maxDate}
-            value={dateFrom}
-            onChange={(e) => {
-              setDateFrom(e.target.value);
-              if (dateTo && e.target.value >= dateTo) setDateTo("");
-            }}
-            className={inputCls}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-[#1a2332] mb-1.5">Kiedy oddajesz busa</label>
-          <input
-            type="date"
-            min={minDateTo}
-            max={maxDate}
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            className={inputCls}
-          />
-          <p className="text-xs text-[#64748b] mt-1">dzień zwrotu busa</p>
-        </div>
+        <CalendarPicker
+          label="Od kiedy"
+          value={dateFrom}
+          onChange={(d) => { setDateFrom(d); if (dateTo && d >= dateTo) setDateTo(""); }}
+          min={today}
+          max={maxDate}
+        />
+        <CalendarPicker
+          label="Kiedy oddajesz busa"
+          value={dateTo}
+          onChange={setDateTo}
+          min={minDateTo}
+          max={maxDate}
+          hint="dzień zwrotu busa"
+          dateFrom={dateFrom}
+          mode={mode}
+          showPrices={!!dateFrom}
+        />
       </div>
 
       {/* Szczegóły wyjazdu */}
