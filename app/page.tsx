@@ -293,9 +293,9 @@ export default function Home() {
               Cześć, tu {IMIE}
             </h2>
             <p className="text-[#64748b] text-lg leading-relaxed mb-6">
-              To mój prywatny bus, którym sam jeżdżę. Wynajmuję go uczciwie, bez korporacyjnej
-              papierologii i bez naciągania. Zadzwoń lub napisz — ustalimy wszystko po ludzku
-              w 5 minut.
+              Opel Zafira Life Business — bardzo wygodne i komfortowe auto, które sam użytkuję
+              na co dzień. Zadzwoń albo wypełnij formularz, znajdziemy dogodny termin i dogadamy
+              wszelkie szczegóły Twojego wyjazdu.
             </p>
             <a
               href={`tel:${TELEFON_RAW}`}

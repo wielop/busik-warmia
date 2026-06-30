@@ -22,7 +22,7 @@ const ITEMS = [
   },
   {
     q: "Czy mogę wyjechać za granicę?",
-    a: "[WYJAZD_ZAGRANICA]",
+    a: "Tak, można.",
   },
   {
     q: "Gdzie odbieram i zwracam busa?",
