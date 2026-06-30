@@ -373,7 +373,7 @@ export default function Calculator({ onChange }: Props) {
             <div className="border-t border-white/10 pt-3 space-y-2 text-sm">
               <p className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">Kiedy płacisz</p>
               <div className="flex justify-between">
-                <span className="text-slate-300">Przy odbiorze busa <span className="text-white/40 text-xs">(zaliczka)</span></span>
+                <span className="text-slate-300">Przy odbiorze busa <span className="text-white/40 text-xs">(kaucja)</span></span>
                 <span className="font-semibold">1 000 zł</span>
               </div>
               <div className="flex justify-between">
@@ -387,7 +387,7 @@ export default function Calculator({ onChange }: Props) {
             </div>
           )}
           <p className="text-xs text-slate-400 mt-3">
-            Limit 450 km/dobę · zaliczka 1 000 zł płatna przy odbiorze
+            Limit 450 km/dobę · kaucja 1 000 zł płatna przy odbiorze
           </p>
         </div>
       ) : (
